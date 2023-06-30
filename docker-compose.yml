@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  db:
+    container_name: courseAppDB
+    image: mysql:8
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: user_management
+      MYSQL_ROOT_PASSWORD: Secret123
+      MYSQL_PASSWORD: Secret123
+    volumes:
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./sql-data:/var/lib/mysql
+    command: --init-file /docker-entrypoint-initdb.d/init.sql
