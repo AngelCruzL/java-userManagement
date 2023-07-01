@@ -1,7 +1,6 @@
 package dev.angelcruzl.usermanagement.controller;
 
 import dev.angelcruzl.usermanagement.dto.UserDto;
-import dev.angelcruzl.usermanagement.entity.User;
 import dev.angelcruzl.usermanagement.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,12 +34,12 @@ public class UserController {
   }
 
   @PutMapping("{id}")
-  public ResponseEntity<User> updateUser(
+  public ResponseEntity<UserDto> updateUser(
       @PathVariable("id") Long userId,
-      @RequestBody User user
+      @RequestBody UserDto user
   ) {
     user.setId(userId);
-    User updatedUser = userService.updateUser(user);
+    UserDto updatedUser = userService.updateUser(user);
 
     return new ResponseEntity<>(updatedUser, HttpStatus.OK);
   }

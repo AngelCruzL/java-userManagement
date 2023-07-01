@@ -1,7 +1,6 @@
 package dev.angelcruzl.usermanagement.service;
 
 import dev.angelcruzl.usermanagement.dto.UserDto;
-import dev.angelcruzl.usermanagement.entity.User;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public interface UserService {
 
   List<UserDto> getAllUsers();
 
-  User updateUser(User user);
+  UserDto updateUser(UserDto user);
 
   void deleteUser(Long userId);
 }
