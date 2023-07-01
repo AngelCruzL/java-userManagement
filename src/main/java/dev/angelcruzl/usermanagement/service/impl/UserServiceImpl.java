@@ -2,6 +2,7 @@ package dev.angelcruzl.usermanagement.service.impl;
 
 import dev.angelcruzl.usermanagement.dto.UserDto;
 import dev.angelcruzl.usermanagement.entity.User;
+import dev.angelcruzl.usermanagement.mapper.UserMapper;
 import dev.angelcruzl.usermanagement.repository.UserRepository;
 import dev.angelcruzl.usermanagement.service.UserService;
 import lombok.AllArgsConstructor;
@@ -17,21 +18,10 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserDto createUser(UserDto userDto) {
-    User user = new User(
-        userDto.getId(),
-        userDto.getFirstName(),
-        userDto.getLastName(),
-        userDto.getEmail()
-    );
-
+    User user = UserMapper.mapToUser(userDto);
     User savedUser = userRepository.save(user);
 
-    return new UserDto(
-        savedUser.getId(),
-        savedUser.getFirstName(),
-        savedUser.getLastName(),
-        savedUser.getEmail()
-    );
+    return UserMapper.mapToUserDto(savedUser);
   }
 
   @Override
