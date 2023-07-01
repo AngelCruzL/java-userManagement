@@ -2,6 +2,7 @@ package dev.angelcruzl.usermanagement.service.impl;
 
 import dev.angelcruzl.usermanagement.dto.UserDto;
 import dev.angelcruzl.usermanagement.entity.User;
+import dev.angelcruzl.usermanagement.mapper.AutoUserMapper;
 import dev.angelcruzl.usermanagement.repository.UserRepository;
 import dev.angelcruzl.usermanagement.service.UserService;
 import lombok.AllArgsConstructor;
@@ -20,11 +21,13 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserDto createUser(UserDto userDto) {
     // User user = UserMapper.mapToUser(userDto);
-    User user = modelMapper.map(userDto, User.class);
+    // User user = modelMapper.map(userDto, User.class);
+    User user = AutoUserMapper.MAPPER.mapToUser(userDto);
     User savedUser = userRepository.save(user);
 
     // return UserMapper.mapToUserDto(savedUser);
-    return modelMapper.map(savedUser, UserDto.class);
+    // return modelMapper.map(savedUser, UserDto.class);
+    return AutoUserMapper.MAPPER.mapToUserDto(savedUser);
   }
 
   @Override
@@ -33,7 +36,8 @@ public class UserServiceImpl implements UserService {
     User user = optionalUser.get();
 
     // return UserMapper.mapToUserDto(user);
-    return modelMapper.map(user, UserDto.class);
+    // return modelMapper.map(user, UserDto.class);
+    return AutoUserMapper.MAPPER.mapToUserDto(user);
   }
 
   @Override
@@ -43,8 +47,11 @@ public class UserServiceImpl implements UserService {
 //    return users.stream()
 //        .map(UserMapper::mapToUserDto)
 //        .toList();
+//    return users.stream()
+//        .map(user -> modelMapper.map(user, UserDto.class))
+//        .toList();
     return users.stream()
-        .map(user -> modelMapper.map(user, UserDto.class))
+        .map(user -> AutoUserMapper.MAPPER.mapToUserDto(user))
         .toList();
   }
 
@@ -57,7 +64,8 @@ public class UserServiceImpl implements UserService {
 
     User updatedUser = userRepository.save(existingUser);
     // return UserMapper.mapToUserDto(updatedUser);
-    return modelMapper.map(updatedUser, UserDto.class);
+    // return modelMapper.map(updatedUser, UserDto.class);
+    return AutoUserMapper.MAPPER.mapToUserDto(updatedUser);
   }
 
   @Override
