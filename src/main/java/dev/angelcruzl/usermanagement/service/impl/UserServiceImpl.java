@@ -2,6 +2,7 @@ package dev.angelcruzl.usermanagement.service.impl;
 
 import dev.angelcruzl.usermanagement.dto.UserDto;
 import dev.angelcruzl.usermanagement.entity.User;
+import dev.angelcruzl.usermanagement.exception.EmailAlreadyExistsException;
 import dev.angelcruzl.usermanagement.exception.ResourceNotFoundException;
 import dev.angelcruzl.usermanagement.mapper.AutoUserMapper;
 import dev.angelcruzl.usermanagement.repository.UserRepository;
@@ -11,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -20,6 +22,14 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserDto createUser(UserDto userDto) {
+    Optional<User> optionalUser = userRepository.findByEmail(userDto.getEmail());
+
+    if (optionalUser.isPresent()) {
+      throw new EmailAlreadyExistsException(
+          String.format("User with email \"%s\" already exists", userDto.getEmail())
+      );
+    }
+
     // User user = UserMapper.mapToUser(userDto);
     // User user = modelMapper.map(userDto, User.class);
     User user = AutoUserMapper.MAPPER.mapToUser(userDto);
