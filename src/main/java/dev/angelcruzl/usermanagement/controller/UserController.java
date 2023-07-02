@@ -1,16 +1,12 @@
 package dev.angelcruzl.usermanagement.controller;
 
 import dev.angelcruzl.usermanagement.dto.UserDto;
-import dev.angelcruzl.usermanagement.exception.ErrorDetails;
-import dev.angelcruzl.usermanagement.exception.ResourceNotFoundException;
 import dev.angelcruzl.usermanagement.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -52,20 +48,5 @@ public class UserController {
   public ResponseEntity<String> deleteUser(@PathVariable("id") Long userId) {
     userService.deleteUser(userId);
     return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
-  }
-
-  @ExceptionHandler(ResourceNotFoundException.class)
-  public ResponseEntity<ErrorDetails> handleResourceNotFoundException(
-      ResourceNotFoundException exception,
-      WebRequest request
-  ) {
-    ErrorDetails errorDetails = new ErrorDetails(
-        LocalDateTime.now(),
-        exception.getMessage(),
-        request.getDescription(false),
-        "USER_NOT_FOUND"
-    );
-
-    return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
   }
 }
